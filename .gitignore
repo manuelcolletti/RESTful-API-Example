@@ -8,4 +8,6 @@
 /LogItUpApi.Test/obj
 /.vs/LogItUpApi/v16/Server/sqlite3
 /LogItUpApi/Properties
+/LogItUpApi/appsettings.json
+/LogItUpApi/appsettings.Development.json
 /LogItUpApi/Migrations

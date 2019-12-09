@@ -1,0 +1,13 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/LogItUpApi/bin
+/LogItUpApi/obj
+/LogItUpApi.Test/bin/Debug/netcoreapp3.1
+/LogItUpApi.Test/obj
+/.vs/LogItUpApi/v16/Server/sqlite3
+/LogItUpApi/Properties
+/LogItUpApi/appsettings.json
+/LogItUpApi/appsettings.Development.json
+/LogItUpApi/Migrations

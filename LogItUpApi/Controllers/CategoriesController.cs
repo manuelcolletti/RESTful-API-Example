@@ -31,12 +31,63 @@ namespace LogItUpApi.Controllers
             IMapper mapper) : base(userManager, logger, dataAccess, configuration, mapper) {
         }
 
-        [HttpPost]
-        public async Task<ActionResult<CategoryDTO>> CreateCategory(CategoryDTO model)
+        [HttpGet]
+        public async Task<ActionResult<List<CategoryDTO>>> Get()
         {
-            Category newCategory = await _dataAccess.Insert(await GetUser(), _mapper.Map<Category>(model));
+            List<Category> items = await _dataAccess.GetList<Category>(await GetUser(), x => true);
 
-            return _mapper.Map<CategoryDTO>(newCategory);
+            return _mapper.Map<List<CategoryDTO>>(items);
+        }
+
+        [HttpGet("{Id}", Name = "Get")]
+        public async Task<ActionResult<CategoryDTO>> Get(long Id)
+        {
+            Category item = await _dataAccess.GetFirst<Category>(await GetUser(), x => x.Id == Id);
+
+            return _mapper.Map<CategoryDTO>(item);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody]CategoryDTO model)
+        {
+            Category item = await _dataAccess.Insert(await GetUser(), _mapper.Map<Category>(model));
+
+            CategoryDTO itemDTO = _mapper.Map<CategoryDTO>(item);
+
+            return new CreatedAtActionResult("Get", "Categories", new { item.Id}, itemDTO);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(long Id, [FromBody]CategoryDTO model)
+        {
+            var item = await _dataAccess.GetFirst<Category>(await GetUser(), x => x.Id == model.Id);
+
+            if (item.Id != Id)
+                return BadRequest();
+
+            if (item == null)
+                return NotFound();
+
+            item.Description = model.Description;
+
+            item.CategoryTypeId = model.CategoryTypeId;
+
+            _dataAccess.Update(await GetUser(), _mapper.Map<Category>(model));
+
+            return Ok();
+        }
+
+        [HttpDelete("Id")]
+        public async Task<ActionResult<CategoryDTO>> Delete(long Id)
+        {
+            var item = await _dataAccess.GetFirst<Category>(await GetUser(), x => x.Id == Id);
+
+            if (item == null)
+                return NotFound();
+
+            _dataAccess.Delete(await GetUser(), item);
+
+            return Ok(_mapper.Map<CategoryDTO>(item));
         }
 
     }

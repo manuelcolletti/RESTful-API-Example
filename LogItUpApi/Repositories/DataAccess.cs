@@ -102,6 +102,20 @@ namespace LogItUpApi.Repositories
             }
         }
 
+        public void Update<T>(ApplicationUser user, T item) where T : UserEntity
+        {
+            try
+            {
+                item.ModificationDate = DateTime.Now;
+
+                dBContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void Delete<T>(ApplicationUser user, T item) where T : UserEntity
         {
             try

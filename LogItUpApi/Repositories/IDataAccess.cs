@@ -25,6 +25,8 @@ namespace LogItUpApi.Repositories
 
         public Task<T> Insert<T>(ApplicationUser user, T item) where T : UserEntity;
 
+        public void Update<T>(ApplicationUser user, T item) where T : UserEntity;
+
         public void Delete<T>(ApplicationUser user, T item) where T : UserEntity;
 
         public void PhysicalDelete<T>(ApplicationUser user, T item) where T : UserEntity;

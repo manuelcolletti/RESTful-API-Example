@@ -112,6 +112,16 @@ namespace LogItUpApi.Test
 
             new SendGridEmailSender().SendEmail(emailInfo).Wait();
         }
+
+        [TestMethod]
+        public void CrearPDF()
+        {
+            var strem = new HtmlToPdfGenerator().GeneratePdf("www.google.com", new HtmlToPdfConfig());
+
+            byte[] bytes = strem.ToArray();
+
+            File.WriteAllBytes(@"C:\Users\manuel.colleti\Desktop\test.pdf", bytes);
+        }
     }
 
 }

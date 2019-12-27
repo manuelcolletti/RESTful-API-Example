@@ -1,6 +1,9 @@
+using LogItUpApi.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace LogItUpApi.Test
 {
@@ -90,6 +93,24 @@ namespace LogItUpApi.Test
 
             Assert.AreEqual(5, result);
 
+        }
+
+        [TestMethod]
+        public void EnviarEmail()
+        {
+            var emailInfo = new EmailInfo()
+            {
+                SenderEmailAddress = "accounts@logitup.com",
+                SenderName = "LogItUp",
+                ReceiverEmailAddress = "manuelcolletti@hotmail.com",
+                ReceiverName = "Manuel Colletti",
+                Subject = "Confirmar cuenta",
+                HtmlContent = "<h1> Esto es una prueba </h1>"
+            };
+
+            emailInfo.AddAttachment("descarga.jpg", File.ReadAllBytes("C:\\descarga.jpg"));
+
+            new SendGridEmailSender().SendEmail(emailInfo).Wait();
         }
     }
 
